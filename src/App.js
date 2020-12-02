@@ -1,15 +1,28 @@
 import React from 'react'
-import List from './components/List'
 import { hugeList } from './components/Faker'
+import { FixedSizeList } from 'react-window'
 
 function App() {
-  const renderItem = item => (
-    <div style={{ display: "flex" }}>
-      <img src={item.avatar} alt={item.name} width={50} /> <p>
-        {item.name} - {item.email} </p>
+  const renderRow = ({ index, style }) => (
+    <div style={{ ...style, ...{ display: "flex" } }}>
+      <img
+        src={hugeList[index].avatar}
+        alt={hugeList[index].name}
+        width={50}
+      />
+      <p> {hugeList[index].name} - {hugeList[index].email} </p>
     </div>
-  )
-  return <List data={hugeList} renderItem={renderItem}/>
+  );
+  return (
+    <FixedSizeList
+      height={window.innerHeight}
+      width={window.innerWidth - 20}
+      itemCount={hugeList.length}
+      itemSize={50}
+    >
+      {renderRow}
+    </FixedSizeList>
+  );
 }
 
 export default App;
