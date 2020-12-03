@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import Fetch from './Fetch'
 
 export default function GithubUser({ login }) {
-    const { loading, data, error } = useFetch(
-        `https://api.github.com/users/${login}`);
-    if (loading) return <p>Loading ...</p>
-    if (error) return <pre>{error}</pre>
-    if (!data) return null
+    return (
+        <Fetch
+            uri={`https://api.github.com/users/${login}`}
+            renderSuccess={User}
+            loadingFallback={(<p>Loading ...</p>)}
+        />
+    );
+}
 
+
+function User({ data }) {
     return (
         <div className="githubUser">
             <img src={data.avatar_url} alt={data.login} style={{ width: 200 }} />
@@ -16,5 +22,5 @@ export default function GithubUser({ login }) {
                 {data.location && <p>{data.location}</p>}
             </div>
         </div>
-    );
+    )
 }
